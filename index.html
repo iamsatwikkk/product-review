@@ -1,68 +1,1618 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Headphone Animation</title>
-  <link rel="stylesheet" href="./style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="description" content="Sony WH-CH520 Wireless Headphones – 50-hr battery, multipoint connect, and clear hands-free calling at ₹5,990.">
+  <title>Sony WH-CH520 – Wireless Headphones</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ══════════════════════════════════════════════
+       RESET & TOKENS
+    ══════════════════════════════════════════════ */
+    *, *::before, *::after {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    :root {
+      --black:   #0a0a0a;
+      --white:   #ffffff;
+      --gray-1:  #f5f5f5;
+      --gray-2:  #e8e8e8;
+      --gray-5:  #8a8a8a;
+      --gray-8:  #2a2a2a;
+      --accent:  #e8ff47;       /* signature: electric lime — bold, memorable */
+      --accent-d:#c8df20;
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 28px;
+      --radius-xl: 40px;
+      --ff-display: 'Outfit', sans-serif;
+      --ff-body:    'DM Sans', sans-serif;
+      --nav-h: 68px;
+      --transition: 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body {
+      font-family: var(--ff-body);
+      background: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+      line-height: 1;
+    }
+    img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: none; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
 
+    /* ══════════════════════════════════════════════
+       SCROLLBAR
+    ══════════════════════════════════════════════ */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--gray-8); border-radius: 4px; }
+
+    /* ══════════════════════════════════════════════
+       NAVBAR
+    ══════════════════════════════════════════════ */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      transition: background var(--transition), backdrop-filter var(--transition);
+    }
+    #navbar.scrolled {
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .nav-inner {
+      width: 100%; max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: var(--ff-display);
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.6);
+      transition: color var(--transition);
+      letter-spacing: 0.5px;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      background: var(--accent);
+      color: var(--black);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px 22px;
+      border-radius: var(--radius-xl);
+      transition: background var(--transition), transform 0.18s ease;
+      letter-spacing: 0.2px;
+    }
+    .nav-cta:hover { background: var(--accent-d); transform: translateY(-1px); }
+    /* Hamburger */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    /* Mobile menu */
+    #mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--black);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+    }
+    #mobile-menu.open { display: flex; }
+    #mobile-menu a {
+      font-family: var(--ff-display);
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--white);
+      transition: color var(--transition);
+      letter-spacing: 2px;
+    }
+    #mobile-menu a:hover { color: var(--accent); }
+    #mobile-menu .mob-cta {
+      margin-top: 12px;
+      background: var(--accent);
+      color: var(--black);
+      font-size: 16px;
+      font-weight: 600;
+      padding: 14px 36px;
+      border-radius: var(--radius-xl);
+    }
+
+    /* ══════════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════════ */
+    #hero {
+      min-height: 100svh;
+      min-height: 100dvh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: calc(var(--nav-h) + 40px) 40px 60px;
+      max-width: 1280px;
+      margin: 0 auto;
+      gap: 40px;
+    }
+    .hero-left { display: flex; flex-direction: column; gap: 0; }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(232,255,71,0.12);
+      border: 1px solid rgba(232,255,71,0.3);
+      border-radius: var(--radius-xl);
+      padding: 6px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      width: fit-content;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+    .hero-title {
+      font-family: var(--ff-display);
+      font-size: clamp(40px, 5.5vw, 80px);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -1px;
+      color: var(--white);
+      margin-bottom: 32px;
+    }
+    .hero-title em { font-style: normal; color: var(--accent); }
+    .hero-desc {
+      font-size: 16px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.85;
+      max-width: 440px;
+      margin-bottom: 44px;
+      letter-spacing: 0.1px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 52px;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: var(--black);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 15px 32px;
+      border-radius: var(--radius-xl);
+      transition: background var(--transition), transform 0.18s ease, box-shadow 0.18s ease;
+      min-height: 50px;
+      letter-spacing: 0.2px;
+    }
+    .btn-primary:hover { background: var(--accent-d); transform: translateY(-2px); box-shadow: 0 12px 28px rgba(232,255,71,0.2); }
+    .btn-primary:active { transform: scale(0.97); }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.07);
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 15px 28px;
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(255,255,255,0.12);
+      transition: background var(--transition), transform 0.18s ease;
+      min-height: 50px;
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.13); transform: translateY(-2px); }
+    .btn-ghost:active { transform: scale(0.97); }
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+    }
+    .stat-item { display: flex; flex-direction: column; gap: 4px; }
+    .stat-num {
+      font-family: var(--ff-display);
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0px;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.1;
+    }
+    .stat-label {
+      font-size: 10px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.38);
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      margin-top: 2px;
+    }
+    .stat-divider {
+      width: 1px;
+      background: rgba(255,255,255,0.1);
+      align-self: stretch;
+    }
+    /* Hero image side */
+    .hero-right {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 500px;
+    }
+    .hero-glow {
+      position: absolute;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      background: var(--bg-current, radial-gradient(circle, #F3D9DD 0%, #D6AEB4 60%, transparent 100%));
+      opacity: 0.35;
+      filter: blur(60px);
+      transition: background 1.6s ease;
+      pointer-events: none;
+    }
+    .slider-images {
+      position: relative;
+      width: 100%;
+      height: 520px;
+    }
+    .slider-images img {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%) scale(0.4);
+      opacity: 0;
+      filter: blur(20px);
+      max-height: 460px;
+      width: auto;
+      max-width: 100%;
+      transition: transform 1s cubic-bezier(0.34,1.2,0.64,1), opacity 0.8s ease, filter 1s ease;
+      will-change: transform, opacity, filter;
+      object-fit: contain;
+    }
+    .slider-images img.active {
+      opacity: 1;
+      filter: blur(0);
+      transform: translate(-50%,-50%) scale(1);
+      z-index: 2;
+    }
+    .slider-images img.prev-img {
+      opacity: 0;
+      filter: blur(15px);
+      transform: translate(-80%,-50%) scale(0.7);
+    }
+    .slider-images img.next-img {
+      opacity: 0;
+      filter: blur(15px);
+      transform: translate(-20%,-50%) scale(0.7);
+    }
+    /* Color picker */
+    .color-picker {
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+    .color-swatch {
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .color-swatch.active { border-color: var(--white); transform: scale(1.35); }
+    .color-swatch:hover { transform: scale(1.2); }
+    /* Slide dots */
+    .slide-dots {
+      position: absolute;
+      bottom: -48px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+    }
+    .slide-dot {
+      width: 6px; height: 6px;
+      border-radius: 3px;
+      background: rgba(255,255,255,0.25);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.3s, width 0.3s;
+    }
+    .slide-dot.active { background: var(--accent); width: 20px; }
+
+    /* ══════════════════════════════════════════════
+       TICKER / MARQUEE
+    ══════════════════════════════════════════════ */
+    .ticker-wrap {
+      overflow: hidden;
+      background: var(--accent);
+      padding: 14px 0;
+      margin: 60px 0 0;
+    }
+    .ticker-track {
+      display: flex;
+      gap: 60px;
+      animation: ticker 20s linear infinite;
+      white-space: nowrap;
+      width: max-content;
+    }
+    .ticker-wrap:hover .ticker-track { animation-play-state: paused; }
+    .ticker-item {
+      font-family: var(--ff-display);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--black);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .ticker-dot { width: 5px; height: 5px; background: var(--black); border-radius: 50%; opacity: 0.4; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ══════════════════════════════════════════════
+       SECTION COMMONS
+    ══════════════════════════════════════════════ */
+    section { padding: 100px 40px; }
+    .section-inner { max-width: 1280px; margin: 0 auto; }
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 22px;
+    }
+    .section-title {
+      font-family: var(--ff-display);
+      font-size: clamp(30px, 3.8vw, 50px);
+      font-weight: 700;
+      line-height: 1.18;
+      letter-spacing: -0.5px;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+    .section-sub {
+      font-size: 15px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.9;
+      max-width: 480px;
+      letter-spacing: 0.1px;
+    }
+
+    /* ══════════════════════════════════════════════
+       FEATURES SECTION
+    ══════════════════════════════════════════════ */
+    #features { background: var(--black); }
+    .features-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 68px;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .feat-card {
+      background: var(--gray-8);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius-md);
+      padding: 32px 28px;
+      transition: border-color var(--transition), transform var(--transition);
+      cursor: default;
+    }
+    .feat-card:hover {
+      border-color: rgba(232,255,71,0.25);
+      transform: translateY(-4px);
+    }
+    .feat-icon {
+      width: 48px; height: 48px;
+      background: rgba(232,255,71,0.1);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      font-size: 22px;
+    }
+    .feat-title {
+      font-family: var(--ff-display);
+      font-size: 19px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 12px;
+      letter-spacing: 0px;
+      line-height: 1.3;
+    }
+    .feat-desc {
+      font-size: 13.5px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.8;
+      letter-spacing: 0.1px;
+    }
+    /* Large card spanning 2 cols */
+    .feat-card.large {
+      grid-column: span 2;
+      background: linear-gradient(135deg, #1a1a1a 0%, #111 100%);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+    .feat-card.large .feat-image-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .feat-card.large img {
+      max-height: 200px;
+      width: auto;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.4));
+    }
+
+    /* ══════════════════════════════════════════════
+       SPECS SECTION
+    ══════════════════════════════════════════════ */
+    #specs { background: #0f0f0f; }
+    .specs-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .specs-list { margin-top: 40px; }
+    .spec-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .spec-row:first-child { border-top: 1px solid rgba(255,255,255,0.07); }
+    .spec-key {
+      font-size: 13px;
+      color: rgba(255,255,255,0.42);
+      font-weight: 300;
+      letter-spacing: 0.2px;
+    }
+    .spec-val {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--white);
+      text-align: right;
+      letter-spacing: 0.1px;
+    }
+    .specs-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .specs-visual-glow {
+      position: absolute;
+      width: 340px; height: 340px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,255,71,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .specs-visual img {
+      max-height: 420px;
+      width: auto;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 30px 60px rgba(0,0,0,0.5));
+    }
+    /* Battery bar */
+    .battery-bar-wrap {
+      margin-top: 32px;
+      padding: 24px;
+      background: rgba(255,255,255,0.04);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .battery-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+      font-weight: 500;
+    }
+    .battery-label strong { color: var(--accent); font-size: 14px; }
+    .battery-track {
+      height: 8px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .battery-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-d), var(--accent));
+      border-radius: 4px;
+      transition: width 1.6s cubic-bezier(0.34,1,0.64,1);
+    }
+
+    /* ══════════════════════════════════════════════
+       REVIEWS SECTION
+    ══════════════════════════════════════════════ */
+    #reviews { background: var(--black); }
+    .reviews-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .rating-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .rating-big {
+      font-family: var(--ff-display);
+      font-size: 56px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.5px;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+    .rating-details { display: flex; flex-direction: column; gap: 4px; }
+    .stars { display: flex; gap: 3px; }
+    .stars svg { width: 16px; height: 16px; }
+    .rating-count { font-size: 12px; color: rgba(255,255,255,0.4); }
+    .review-stars { display: flex; gap: 3px; margin-bottom: 2px; }
+    .review-stars svg { width: 13px; height: 13px; }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .review-card {
+      background: var(--gray-8);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: border-color var(--transition);
+    }
+    .review-card:hover { border-color: rgba(232,255,71,0.2); }
+    /* review-stars already defined above */
+    .review-text {
+      font-size: 14px;
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.85;
+      flex: 1;
+      letter-spacing: 0.1px;
+    }
+    .review-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding-top: 16px;
+    }
+    .author-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .author-name { font-size: 13px; font-weight: 500; color: var(--white); letter-spacing: 0.1px; }
+    .author-location { font-size: 11px; font-weight: 300; color: rgba(255,255,255,0.35); margin-top: 3px; letter-spacing: 0.3px; }
+    /* Verified badge */
+    .verified {
+      margin-left: auto;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--accent);
+      background: rgba(232,255,71,0.1);
+      padding: 3px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ══════════════════════════════════════════════
+       COMPARE SECTION
+    ══════════════════════════════════════════════ */
+    #compare { background: #0f0f0f; }
+    .compare-table-wrap { overflow-x: auto; margin-top: 48px; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.07); }
+    table { width: 100%; border-collapse: collapse; }
+    thead { background: rgba(255,255,255,0.04); }
+    th {
+      padding: 22px 24px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    th.highlight { color: var(--accent); }
+    td {
+      padding: 18px 24px;
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.7);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      white-space: nowrap;
+      letter-spacing: 0.1px;
+    }
+    td.highlight { color: var(--white); font-weight: 600; }
+    td:first-child { color: rgba(255,255,255,0.4); font-size: 13px; }
+    tr:hover td { background: rgba(255,255,255,0.025); }
+    .tick { color: var(--accent); font-weight: 700; font-family: var(--ff-body); }
+    .cross { color: rgba(255,255,255,0.18); font-weight: 400; font-family: var(--ff-body); }
+
+    /* ══════════════════════════════════════════════
+       BUY / CTA SECTION
+    ══════════════════════════════════════════════ */
+    #buy {
+      background: linear-gradient(160deg, #111 0%, #0a0a0a 100%);
+      text-align: center;
+      padding: 120px 40px;
+    }
+    .buy-inner { max-width: 640px; margin: 0 auto; }
+    .buy-price {
+      font-family: var(--ff-display);
+      font-size: clamp(52px, 10vw, 88px);
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -1px;
+      line-height: 1;
+      margin: 28px 0 10px;
+      font-variant-numeric: tabular-nums;
+    }
+    .buy-mrp {
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 52px;
+      letter-spacing: 0.3px;
+    }
+    .buy-mrp s { color: rgba(255,255,255,0.2); }
+    .buy-actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-buy {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent);
+      color: var(--black);
+      font-size: 15px;
+      font-weight: 700;
+      padding: 17px 40px;
+      border-radius: var(--radius-xl);
+      transition: background var(--transition), transform 0.18s ease, box-shadow 0.2s ease;
+      min-height: 54px;
+      letter-spacing: 0.2px;
+    }
+    .btn-buy:hover { background: var(--accent-d); transform: translateY(-3px); box-shadow: 0 16px 36px rgba(232,255,71,0.25); }
+    .btn-buy:active { transform: scale(0.97); }
+    .btn-wishlist {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      color: var(--white);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 17px 32px;
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: background var(--transition), transform 0.18s ease;
+      min-height: 54px;
+      cursor: pointer;
+    }
+    .btn-wishlist:hover { background: rgba(255,255,255,0.07); transform: translateY(-3px); }
+    .btn-wishlist:active { transform: scale(0.97); }
+    .btn-wishlist.wished { border-color: rgba(232,255,71,0.4); color: var(--accent); }
+    .availability-note {
+      margin-top: 28px;
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+      color: rgba(255,255,255,0.3);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+    }
+    .avail-dot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; }
+
+    /* ══════════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════════ */
+    footer {
+      background: #070707;
+      padding: 60px 40px 32px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-inner { max-width: 1280px; margin: 0 auto; }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 60px;
+    }
+    .footer-brand .nav-logo { font-size: 20px; margin-bottom: 14px; display: block; }
+    .footer-tagline { font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.38); line-height: 1.85; margin-bottom: 24px; letter-spacing: 0.1px; }
+    .footer-socials { display: flex; gap: 12px; }
+    .social-btn {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      color: rgba(255,255,255,0.5);
+      transition: border-color var(--transition), color var(--transition), transform var(--transition);
+    }
+    .social-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+    .footer-col-title {
+      font-size: 10px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.3);
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      margin-bottom: 22px;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-links a {
+      font-size: 13px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.45);
+      transition: color var(--transition);
+      letter-spacing: 0.1px;
+      line-height: 1.5;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-copy { font-size: 12px; color: rgba(255,255,255,0.25); }
+    .footer-legal { display: flex; gap: 24px; }
+    .footer-legal a { font-size: 12px; color: rgba(255,255,255,0.25); transition: color var(--transition); }
+    .footer-legal a:hover { color: rgba(255,255,255,0.6); }
+
+    /* ══════════════════════════════════════════════
+       TOAST NOTIFICATION
+    ══════════════════════════════════════════════ */
+    #toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--white);
+      color: var(--black);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 13px 24px;
+      border-radius: var(--radius-xl);
+      opacity: 0;
+      transition: transform 0.35s cubic-bezier(0.34,1.2,0.64,1), opacity 0.35s ease;
+      z-index: 200;
+      pointer-events: none;
+      white-space: nowrap;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.25);
+    }
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ══════════════════════════════════════════════
+       SCROLL REVEAL
+    ══════════════════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ══════════════════════════════════════════════
+       BACK TO TOP
+    ══════════════════════════════════════════════ */
+    #back-top {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 44px; height: 44px;
+      background: var(--accent);
+      color: var(--black);
+      border-radius: 50%;
+      border: none;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      z-index: 90;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+    #back-top.visible { opacity: 1; transform: scale(1); }
+    #back-top:hover { background: var(--accent-d); }
+
+    /* ══════════════════════════════════════════════
+       RESPONSIVE — TABLET ≤ 1024px
+    ══════════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      section { padding: 80px 28px; }
+      #hero { padding: calc(var(--nav-h) + 32px) 28px 48px; gap: 32px; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .feat-card.large { grid-column: span 2; }
+      .reviews-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .specs-layout { gap: 48px; }
+    }
+
+    /* ══════════════════════════════════════════════
+       RESPONSIVE — MOBILE ≤ 767px
+    ══════════════════════════════════════════════ */
+    @media (max-width: 767px) {
+      :root { --nav-h: 60px; }
+      #navbar { padding: 0 20px; }
+      .nav-links, .nav-cta { display: none; }
+      .nav-hamburger { display: flex; }
+      #hero {
+        grid-template-columns: 1fr;
+        padding: calc(var(--nav-h) + 20px) 20px 40px;
+        text-align: center;
+        min-height: auto;
+        gap: 24px;
+      }
+      .hero-left { align-items: center; }
+      .hero-desc { max-width: 100%; }
+      .hero-actions { justify-content: center; }
+      .hero-stats { justify-content: center; gap: 20px; }
+      .hero-right {
+        min-height: 0;
+        order: -1;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 12px;
+      }
+      .slider-images {
+        height: 250px;
+        width: 100%;
+        flex-shrink: 0;
+      }
+      .slider-images img { max-height: 230px; }
+      /* Pull color-picker and dots out of absolute positioning on mobile */
+      .color-picker {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        transform: none;
+        justify-content: center;
+        margin-top: 18px;
+        gap: 12px;
+      }
+      .color-swatch { width: 14px; height: 14px; }
+      .slide-dots {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        transform: none;
+        justify-content: center;
+        margin-top: 12px;
+      }
+      section { padding: 64px 20px; }
+      .features-header { flex-direction: column; align-items: flex-start; }
+      .features-grid { grid-template-columns: 1fr; }
+      .feat-card.large { grid-column: span 1; grid-template-columns: 1fr; }
+      .feat-card.large .feat-image-wrap { display: none; }
+      .specs-layout { grid-template-columns: 1fr; }
+      .specs-visual { display: none; }
+      .reviews-grid { grid-template-columns: 1fr; }
+      .reviews-header { flex-direction: column; align-items: flex-start; }
+      .footer-top { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      #buy { padding: 80px 20px; }
+      #back-top { bottom: 20px; right: 16px; width: 40px; height: 40px; font-size: 18px; }
+      .ticker-wrap { margin: 48px 0 0; }
+    }
+
+    @media (max-width: 430px) {
+      .hero-title { letter-spacing: -0.5px; }
+      .buy-price { letter-spacing: -0.5px; }
+      .btn-buy, .btn-wishlist { width: 100%; justify-content: center; }
+      .buy-actions { flex-direction: column; width: 100%; }
+    }
+
+    /* ══════════════════════════════════════════════
+       REDUCED MOTION
+    ══════════════════════════════════════════════ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
+  </style>
 </head>
 <body>
 
-<body>
+<!-- ════════════════════════════════════════
+  NAVBAR
+════════════════════════════════════════ -->
+<nav id="navbar" aria-label="Main navigation">
+  <div class="nav-inner">
+    <span class="nav-logo">SONY<span></span></span>
+    <ul class="nav-links" role="list">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#specs">Specs</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#compare">Compare</a></li>
+    </ul>
+    <a href="https://www.sony.co.in/headphones/products/wh-ch520/buy" target="_blank" rel="noopener" class="nav-cta">Order Now →</a>
+    <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false" id="hamburger">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
 
-<section class="slider-main">
-    <div class="container">
-        <div class="logo">
-            <a href="https://www.sony.co.in/headphones"><img src="logo.svg" alt="logo"></a>
-        </div>
-        
-        <div class="slider-content-wrap">
-            <div class="slider-content">
-                <h2 class="heading-style-2" style="white-space: nowrap;">WH-CH520 Wireless</h2>
-                <p>Block the noise, stay aware when needed, and enjoy theater-like audio - all with effortless wireless control.</p>
-                <h3 class="heading-style-2">₹5,990</h3>
-                <div class="social-icons">
-                    <a href="https://www.instagram.com/sony/"><img src="instagram.svg" alt="instagram"></a>
-                    <a href="https://www.facebook.com/Sony/"><img src="facebook.svg" alt="facebook"></a>
-                    <a href="https://x.com/Sony"><img src="x.png" alt="twitter" class="x-icon"></a>
-                </div>
-                <div class="buttons">  <!-- ADD HERE -->
-  <a href="https://www.sony.co.in/headphones/products/wh-ch520" target="_blank" class="btn btn-outline">Learn More</a>
-  <a href="https://www.sony.co.in/headphones/products/wh-ch520/buy" target="_blank" class="btn btn-filled">Order Now</a>
+<!-- Mobile full-screen menu -->
+<div id="mobile-menu" role="dialog" aria-label="Mobile menu">
+  <a href="#features" class="mob-link">Features</a>
+  <a href="#specs" class="mob-link">Specs</a>
+  <a href="#reviews" class="mob-link">Reviews</a>
+  <a href="#compare" class="mob-link">Compare</a>
+  <a href="https://www.sony.co.in/headphones/products/wh-ch520/buy" target="_blank" rel="noopener" class="mob-cta">Order Now →</a>
 </div>
-            </div>
+
+<!-- ════════════════════════════════════════
+  HERO
+════════════════════════════════════════ -->
+<main>
+<section id="hero-section" aria-label="Hero">
+  <div id="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">New 2024 Model</div>
+      <h1 class="hero-title">Sound<br>Without<br><em>Limits.</em></h1>
+      <p class="hero-desc">The WH-CH520 delivers 50 hours of wireless freedom, multipoint Bluetooth, and hands-free calling clarity — at a price that doesn't ask you to compromise.</p>
+      <div class="hero-actions">
+        <a href="https://www.sony.co.in/headphones/products/wh-ch520/buy" target="_blank" rel="noopener" class="btn-primary">Order Now →</a>
+        <a href="https://www.sony.co.in/headphones/products/wh-ch520" target="_blank" rel="noopener" class="btn-ghost">Learn More</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-num">50h</span>
+          <span class="stat-label">Battery</span>
         </div>
-    </div>
-    
-
-    <div class="slider-images">
-        <img class="slider-image" src="1.webp" alt="headphone image">
-        <img class="slider-image" src="2.webp" alt="headphone image">
-        <img class="slider-image" src="3.webp" alt="headphone image">
-        <img class="slider-image" src="4.webp" alt="headphone image">
-        <img class="slider-image" src="5.webp" alt="headphone image">
-    </div>
-    
-
-    <div id="backgrounds">
-        <div class="background" style="background: radial-gradient(circle at 50% 50%, #F3D9DD 0%, #D6AEB4 50%, #B88A92 100%);"></div>
-        <div class="background" style="background: radial-gradient(50% 50% at 50% 50%, #D1E4F6 0%, #5F9CCF 100%);"></div>
-        <div class="background" style="background: radial-gradient(circle at 50% 50%, #F1E6D8 0%, #D6C3A8 50%, #B8A489 100%);"></div>
-        <div class="background" style="background: radial-gradient(50% 50% at 50% 50%, #D7D7D7 0%, #979797 100%);"></div>
-        <div class="background" style="background: radial-gradient(50% 50% at 50% 50%, #6B6B6B 0%, #292929 100%);"></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num">30m</span>
+          <span class="stat-label">Quick Charge</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num">2</span>
+          <span class="stat-label">Devices</span>
+        </div>
+      </div>
     </div>
 
-    
-
-  <div class="credit">Product review created by Satwik
-</div>
-    
+    <div class="hero-right">
+      <div class="hero-glow" id="hero-glow"></div>
+      <div class="slider-images" id="slider">
+        <img src="1.webp" alt="WH-CH520 – Rose" class="slider-image">
+        <img src="2.webp" alt="WH-CH520 – Blue" class="slider-image">
+        <img src="3.webp" alt="WH-CH520 – Beige" class="slider-image">
+        <img src="4.webp" alt="WH-CH520 – Gray" class="slider-image">
+        <img src="5.webp" alt="WH-CH520 – Black" class="slider-image">
+      </div>
+      <!-- Color swatches -->
+      <div class="color-picker" aria-label="Choose color">
+        <button class="color-swatch active" style="background:#D6AEB4;" data-index="0" aria-label="Rose"></button>
+        <button class="color-swatch" style="background:#5F9CCF;" data-index="1" aria-label="Blue"></button>
+        <button class="color-swatch" style="background:#D6C3A8;" data-index="2" aria-label="Beige"></button>
+        <button class="color-swatch" style="background:#979797;" data-index="3" aria-label="Gray"></button>
+        <button class="color-swatch" style="background:#292929;" data-index="4" aria-label="Black"></button>
+      </div>
+      <!-- Slide dots -->
+      <div class="slide-dots" id="dots" role="tablist" aria-label="Image slides"></div>
+    </div>
+  </div>
 </section>
 
+<!-- Ticker -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-track" id="ticker"></div>
+</div>
 
-</body>
+<!-- ════════════════════════════════════════
+  FEATURES
+════════════════════════════════════════ -->
+<section id="features">
+  <div class="section-inner">
+    <div class="features-header reveal">
+      <div>
+        <p class="section-label">Why WH-CH520</p>
+        <h2 class="section-title">Built for all-day<br>listening.</h2>
+      </div>
+      <p class="section-sub">Every detail tuned around one thing — comfort that keeps up with you, from morning commute to late-night sessions.</p>
+    </div>
+    <div class="features-grid">
+      <!-- Large card -->
+      <div class="feat-card large reveal">
+        <div>
+          <div class="feat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--accent)"><rect x="2" y="7" width="16" height="10" rx="2"/><path d="M22 11v2"/><path d="M6 11h6"/></svg>
+          </div>
+          <h3 class="feat-title">50-Hour Battery</h3>
+          <p class="feat-desc">Two full days of non-stop music. And if you're running low, a 10-minute quick charge gives you 1.5 hours of playback instantly.</p>
+        </div>
+        <div class="feat-image-wrap">
+          <img src="1.webp" alt="Sony WH-CH520 headphone">
+        </div>
+      </div>
 
-  <script  src="./script.js"></script>
+      <div class="feat-card reveal">
+        <div class="feat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--accent)"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          </div>
+        <h3 class="feat-title">DSEE Upscaling</h3>
+        <p class="feat-desc">Sony's Digital Sound Enhancement Engine restores the detail lost in compressed audio files in real time.</p>
+      </div>
 
+      <div class="feat-card reveal">
+        <div class="feat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--accent)"><path d="M4.9 19.1A8 8 0 0 1 4 12a8 8 0 0 1 8-8"/><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M19 12a7 7 0 0 1-7 7"/><path d="M21 12a9 9 0 0 1-9 9"/></svg>
+          </div>
+        <h3 class="feat-title">Multipoint Connect</h3>
+        <p class="feat-desc">Stay connected to two Bluetooth devices simultaneously. Switch seamlessly between your phone and laptop without re-pairing.</p>
+      </div>
+
+      <div class="feat-card reveal">
+        <div class="feat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--accent)"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
+          </div>
+        <h3 class="feat-title">Crystal Clear Calls</h3>
+        <p class="feat-desc">Built-in microphone with beamforming tech isolates your voice for clear hands-free calls, even in busy environments.</p>
+      </div>
+
+      <div class="feat-card reveal">
+        <div class="feat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--accent)"><path d="M6 3h12l3 7H3L6 3z"/><path d="M3 10c0 4.418 4.03 8 9 8s9-3.582 9-8"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
+          </div>
+        <h3 class="feat-title">Featherlight Design</h3>
+        <p class="feat-desc">At just 147 g with a swivel-flat fold, the WH-CH520 disappears into your bag and barely registers on your head.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+  SPECS
+════════════════════════════════════════ -->
+<section id="specs">
+  <div class="section-inner">
+    <div class="specs-layout">
+      <div class="reveal">
+        <p class="section-label">Technical Specs</p>
+        <h2 class="section-title">Every number<br>that matters.</h2>
+        <div class="specs-list">
+          <div class="spec-row"><span class="spec-key">Driver Unit</span><span class="spec-val">30mm, dome type</span></div>
+          <div class="spec-row"><span class="spec-key">Frequency Response</span><span class="spec-val">20 Hz – 20,000 Hz</span></div>
+          <div class="spec-row"><span class="spec-key">Impedance</span><span class="spec-val">32 Ω</span></div>
+          <div class="spec-row"><span class="spec-key">Bluetooth Version</span><span class="spec-val">5.2</span></div>
+          <div class="spec-row"><span class="spec-key">Codec Support</span><span class="spec-val">SBC, AAC</span></div>
+          <div class="spec-row"><span class="spec-key">Wireless Range</span><span class="spec-val">10 m</span></div>
+          <div class="spec-row"><span class="spec-key">Battery Life</span><span class="spec-val">Up to 50 hours</span></div>
+          <div class="spec-row"><span class="spec-key">Quick Charge</span><span class="spec-val">10 min → 1.5 h</span></div>
+          <div class="spec-row"><span class="spec-key">Weight</span><span class="spec-val">147 g</span></div>
+          <div class="spec-row"><span class="spec-key">Colors</span><span class="spec-val">5 colorways</span></div>
+        </div>
+
+        <!-- Battery bar animation -->
+        <div class="battery-bar-wrap" id="battery-bar-wrap">
+          <div class="battery-label">
+            <span style="letter-spacing:0.5px;font-weight:300;">Battery endurance</span>
+            <strong>50 hrs</strong>
+          </div>
+          <div class="battery-track">
+            <div class="battery-fill" id="battery-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="specs-visual reveal">
+        <div class="specs-visual-glow"></div>
+        <img src="3.webp" alt="Sony WH-CH520 detail view">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+  REVIEWS
+════════════════════════════════════════ -->
+<section id="reviews">
+  <div class="section-inner">
+    <div class="reviews-header reveal">
+      <div>
+        <p class="section-label">Customer Reviews</p>
+        <h2 class="section-title">Trusted by listeners<br>across India.</h2>
+      </div>
+      <div class="rating-badge">
+        <span class="rating-big">4.6</span>
+        <div class="rating-details">
+          <div class="stars" aria-label="5 out of 5 stars">
+              <svg viewBox="0 0 24 24" fill="var(--accent)" stroke="none" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24" fill="var(--accent)" stroke="none" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24" fill="var(--accent)" stroke="none" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24" fill="var(--accent)" stroke="none" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24" fill="var(--accent)" stroke="none" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+          <span class="rating-count" style="letter-spacing:0.3px;font-weight:300;">Based on 2,840 reviews</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <div class="review-stars" aria-label="5 out of 5 stars">
+          <svg viewBox="0 0 24 24" fill="var(--accent)" stroke="none" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="var(--accent)" stroke="none" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="var(--accent)" stroke="none" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="var(--accent)" stroke="none" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="var(--accent)" stroke="none" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="review-text">"Battery life is insane for this price. I charge it once a week. Sound quality is warm and full — great for long study sessions."</p>
+        <div class="review-author">
+          <div class="author-avatar" style="background:rgba(95,156,207,0.2);color:#5F9CCF;">AR</div>
+          <div>
+            <div class="author-name">Arjun R.</div>
+            <div class="author-location">Bengaluru, KA</div>
+          </div>
+          <span class="verified">Verified</span>
+        </div>
+      </div>
+
+      <div class="review-card reveal">
+        <div class="review-stars" aria-label="5 out of 5 stars">
+          <svg viewBox="0 0 24 24" fill="var(--accent)" stroke="none" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="var(--accent)" stroke="none" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="var(--accent)" stroke="none" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="var(--accent)" stroke="none" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="var(--accent)" stroke="none" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="review-text">"Switched from a ₹12k pair to this. Genuinely surprised. The call quality on Teams calls is clear and my colleagues stopped complaining."</p>
+        <div class="review-author">
+          <div class="author-avatar" style="background:rgba(214,194,168,0.2);color:#b08060;">PM</div>
+          <div>
+            <div class="author-name">Priya M.</div>
+            <div class="author-location">Mumbai, MH</div>
+          </div>
+          <span class="verified">Verified</span>
+        </div>
+      </div>
+
+      <div class="review-card reveal">
+        <div class="review-stars" aria-label="4 out of 5 stars">
+          <svg viewBox="0 0 24 24" fill="var(--accent)" stroke="none" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="var(--accent)" stroke="none" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="var(--accent)" stroke="none" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="var(--accent)" stroke="none" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.18)" stroke="none" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="review-text">"Comfortable enough for 6-hour sessions. Multipoint is a lifesaver — I keep it connected to my phone and PC simultaneously every single day."</p>
+        <div class="review-author">
+          <div class="author-avatar" style="background:rgba(232,255,71,0.15);color:#c8df20;">SK</div>
+          <div>
+            <div class="author-name">Siddharth K.</div>
+            <div class="author-location">Hyderabad, TS</div>
+          </div>
+          <span class="verified">Verified</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+  COMPARE
+════════════════════════════════════════ -->
+<section id="compare">
+  <div class="section-inner">
+    <div class="reveal">
+      <p class="section-label">How it stacks up</p>
+      <h2 class="section-title">The honest comparison.</h2>
+    </div>
+    <div class="compare-table-wrap reveal" style="margin-top:48px;">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th class="highlight">WH-CH520 &mdash; Best Value</th>
+            <th>JBL Tune 510BT</th>
+            <th>boAt Rockerz 450</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Price</td><td class="highlight">₹5,990</td><td>₹2,999</td><td>₹1,499</td></tr>
+          <tr><td>Battery Life</td><td class="highlight">50 hours</td><td>40 hours</td><td>15 hours</td></tr>
+          <tr><td>Quick Charge</td><td class="highlight"><span class="tick">✓</span> 10 min</td><td><span class="tick">✓</span> 5 min</td><td><span class="cross">✗</span></td></tr>
+          <tr><td>Multipoint Connect</td><td class="highlight"><span class="tick">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
+          <tr><td>DSEE Upscaling</td><td class="highlight"><span class="tick">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
+          <tr><td>Foldable</td><td class="highlight"><span class="tick">✓</span></td><td><span class="tick">✓</span></td><td><span class="tick">✓</span></td></tr>
+          <tr><td>Weight</td><td class="highlight">147 g</td><td>160 g</td><td>220 g</td></tr>
+          <tr><td>Warranty</td><td class="highlight">1 year Sony</td><td>1 year</td><td>1 year</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+  BUY CTA
+════════════════════════════════════════ -->
+<section id="buy">
+  <div class="buy-inner reveal">
+    <p class="section-label" style="justify-content:center;display:flex;">Ready to listen?</p>
+    <div class="buy-price">₹5,990</div>
+    <p class="buy-mrp">MRP <s>₹7,990</s> &nbsp;·&nbsp; Save ₹2,000</p>
+    <div class="buy-actions">
+      <a href="https://www.sony.co.in/headphones/products/wh-ch520/buy" target="_blank" rel="noopener" class="btn-buy">Order on Sony.co.in</a>
+      <button class="btn-wishlist" id="wishlist-btn" aria-label="Add to wishlist">Save to Wishlist</button>
+    </div>
+    <div class="availability-note">
+      <span class="avail-dot"></span>
+      In stock · Free delivery across India
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ════════════════════════════════════════
+  FOOTER
+════════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="nav-logo">SONY</span>
+        <p class="footer-tagline">Inspiring and fulfilling your curiosity — through innovative technology and entertainment experiences worldwide.</p>
+        <div class="footer-socials">
+          <a href="https://www.instagram.com/sony/" target="_blank" rel="noopener" class="social-btn" aria-label="Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://www.facebook.com/Sony/" target="_blank" rel="noopener" class="social-btn" aria-label="Facebook">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://x.com/Sony" target="_blank" rel="noopener" class="social-btn" aria-label="X / Twitter">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="https://www.youtube.com/sony" target="_blank" rel="noopener" class="social-btn" aria-label="YouTube">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">Products</p>
+        <ul class="footer-links">
+          <li><a href="https://www.sony.co.in/headphones" target="_blank">Headphones</a></li>
+          <li><a href="https://www.sony.co.in/electronics/televisions" target="_blank">Televisions</a></li>
+          <li><a href="https://www.sony.co.in/cameras-camcorders" target="_blank">Cameras</a></li>
+          <li><a href="https://www.playstation.com/en-in/" target="_blank">PlayStation</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Support</p>
+        <ul class="footer-links">
+          <li><a href="https://www.sony.co.in/support" target="_blank">Help Centre</a></li>
+          <li><a href="https://www.sony.co.in/support/warranty" target="_blank">Warranty</a></li>
+          <li><a href="https://www.sony.co.in/store-locator" target="_blank">Find a Store</a></li>
+          <li><a href="https://www.sony.co.in/contact-us" target="_blank">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Company</p>
+        <ul class="footer-links">
+          <li><a href="https://www.sony.com/en/SonyInfo/CorporateInfo/" target="_blank">About Sony</a></li>
+          <li><a href="https://www.sony.co.in/newsandpress" target="_blank">Newsroom</a></li>
+          <li><a href="https://www.sony.co.in/privacy-policy" target="_blank">Privacy Policy</a></li>
+          <li><a href="https://www.sony.co.in/terms-of-use" target="_blank">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2024 Sony India Pvt. Ltd. — Project by Satwik</p>
+      <div class="footer-legal">
+        <a href="#">Privacy</a>
+        <a href="#">Cookies</a>
+        <a href="#">Accessibility</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Toast -->
+<div id="toast" role="status" aria-live="polite"></div>
+
+<!-- Back to top -->
+<button id="back-top" aria-label="Back to top">↑</button>
+
+<!-- ════════════════════════════════════════
+  JAVASCRIPT
+════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── Config ──────────────────────────── */
+  const INTERVAL = 3200;
+  const GLOWS = [
+    'radial-gradient(circle, #F3D9DD 0%, #D6AEB4 60%, transparent 100%)',
+    'radial-gradient(circle, #D1E4F6 0%, #5F9CCF 60%, transparent 100%)',
+    'radial-gradient(circle, #F1E6D8 0%, #D6C3A8 60%, transparent 100%)',
+    'radial-gradient(circle, #e0e0e0 0%, #979797 60%, transparent 100%)',
+    'radial-gradient(circle, #4a4a4a 0%, #292929 60%, transparent 100%)',
+  ];
+
+  /* ── Navbar scroll ───────────────────── */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+    document.getElementById('back-top').classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+
+  /* ── Mobile menu ─────────────────────── */
+  const hamburger  = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  hamburger.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+    hamburger.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+
+  /* ── Image slider ────────────────────── */
+  const slider  = document.getElementById('slider');
+  const images  = Array.from(slider.querySelectorAll('.slider-image'));
+  const dotsEl  = document.getElementById('dots');
+  const swatches = document.querySelectorAll('.color-swatch');
+  const glow    = document.getElementById('hero-glow');
+  const TOTAL   = images.length;
+  let current   = 0;
+  let timer     = null;
+  let paused    = false;
+  const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Build dots */
+  images.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'slide-dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', 'Slide ' + (i + 1));
+    d.setAttribute('role', 'tab');
+    d.addEventListener('click', () => goTo(i));
+    dotsEl.appendChild(d);
+  });
+  const dots = Array.from(dotsEl.querySelectorAll('.slide-dot'));
+
+  function updateSlider(idx) {
+    images.forEach(img => img.classList.remove('active', 'prev-img', 'next-img'));
+    dots.forEach(d => d.classList.remove('active'));
+    swatches.forEach(s => s.classList.remove('active'));
+
+    images[idx].classList.add('active');
+    images[(idx - 1 + TOTAL) % TOTAL].classList.add('prev-img');
+    images[(idx + 1) % TOTAL].classList.add('next-img');
+    dots[idx].classList.add('active');
+    swatches[idx].classList.add('active');
+
+    glow.style.background = GLOWS[idx];
+  }
+
+  function goTo(idx) {
+    current = (idx + TOTAL) % TOTAL;
+    updateSlider(current);
+  }
+
+  function advance() { if (!paused) goTo(current + 1); }
+
+  function startTimer() {
+    if (REDUCED) return;
+    clearInterval(timer);
+    timer = setInterval(advance, INTERVAL);
+  }
+
+  /* Swatches → jump to slide */
+  swatches.forEach(s => {
+    s.addEventListener('click', () => { goTo(+s.dataset.index); startTimer(); });
+  });
+
+  /* Touch swipe */
+  let tx = 0, ty = 0;
+  slider.addEventListener('touchstart', e => { tx = e.changedTouches[0].clientX; ty = e.changedTouches[0].clientY; }, { passive: true });
+  slider.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    const dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) < 36 || Math.abs(dx) < Math.abs(dy)) return;
+    goTo(dx < 0 ? current + 1 : current - 1);
+    startTimer();
+  }, { passive: true });
+
+  slider.addEventListener('mouseenter', () => { paused = true; });
+  slider.addEventListener('mouseleave', () => { paused = false; });
+  document.addEventListener('visibilitychange', () => { document.hidden ? clearInterval(timer) : startTimer(); });
+
+  goTo(0);
+  startTimer();
+
+  /* ── Ticker ──────────────────────────── */
+  const tickerItems = ['50-hour battery','Multipoint Bluetooth','DSEE Upscaling','Crystal clear calls','Featherlight 147g','Quick Charge 10 min','5 color options','Bluetooth 5.2'];
+  const track = document.getElementById('ticker');
+  const makeItems = () => tickerItems.map(t => `<span class="ticker-item">${t}<span class="ticker-dot"></span></span>`).join('');
+  track.innerHTML = makeItems() + makeItems(); /* double for seamless loop */
+
+  /* ── Scroll reveal ───────────────────── */
+  const reveals = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => revealObserver.observe(el));
+
+  /* ── Battery bar animate ─────────────── */
+  const battFill = document.getElementById('battery-fill');
+  const battObs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) { battFill.style.width = '83%'; battObs.disconnect(); }
+  }, { threshold: 0.5 });
+  battObs.observe(document.getElementById('battery-bar-wrap'));
+
+  /* ── Toast helper ────────────────────── */
+  const toast = document.getElementById('toast');
+  let toastTimer;
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
+  }
+
+  /* ── Wishlist button ─────────────────── */
+  const wishBtn = document.getElementById('wishlist-btn');
+  let wished = false;
+  wishBtn.addEventListener('click', () => {
+    wished = !wished;
+    wishBtn.classList.toggle('wished', wished);
+    wishBtn.textContent = wished ? 'Saved to Wishlist' : 'Save to Wishlist';
+    showToast(wished ? 'Added to wishlist.' : 'Removed from wishlist.');
+  });
+
+  /* ── Back to top ─────────────────────── */
+  document.getElementById('back-top').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  /* ── Smooth scroll for nav anchors ───── */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (!target) return;
+      e.preventDefault();
+      const top = target.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+
+  /* ── Active nav link highlight ────────── */
+  const sections = document.querySelectorAll('section[id], #features, #specs, #reviews, #compare');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const sectionObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(link => link.style.color = '');
+        const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+        if (active) active.style.color = 'var(--accent)';
+      }
+    });
+  }, { threshold: 0.4 });
+  document.querySelectorAll('#features, #specs, #reviews, #compare').forEach(s => sectionObserver.observe(s));
+
+}());
+</script>
 </body>
 </html>
